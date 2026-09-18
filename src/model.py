@@ -17,6 +17,10 @@ def predict_price(
 
     Возвращает DataFrame с колонкой predicted_price.
     """
+
+    # Копируем, чтобы не модифицировать исходный DataFrame
+    df = df.copy()
+
     # Базовая цена — среднее по продукту (векторизованная операция)
     base_price = df.groupby("product")["price"].transform("mean")
 
