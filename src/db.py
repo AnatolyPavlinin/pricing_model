@@ -24,12 +24,15 @@ class PriceRecord(Base):
 
 def get_engine(db_url: Optional[str] = None) -> object:
     """
-    Создаёт движок SQLAlchemy. Если db_url не передан, берёт из переменной окружения DATABASE_URL.
+    Создаёт движок SQLAlchemy.
     """
     if db_url is None:
         db_url = getenv("DATABASE_URL")
         if not db_url:
-            raise ValueError("Строка подключения к БД не найдена. Укажите DATABASE_URL в .env или передайте db_url явно.")
+            raise ValueError("Строка подключения к БД не найдена. Укажите DATABASE_URL в .env.")
+    if db_url.startswith("sqlite"):
+        return create_engine(db_url, connect_args={"check_same_thread": False})
+
     return create_engine(db_url)
 
 

@@ -1,10 +1,14 @@
-# tests/test_model.py
 import pandas as pd
 import pytest
 from src.model import predict_price
 
 
 def test_predict_price_basic():
+    """
+    Базовый тест прогноза цены: проверяем корректность расчёта для двух строк.
+    Логика: базовая цена усредняется по продукту, затем применяется формула.
+    Ожидаемый результат: predicted_price = 110 и 120 соответственно.
+    """
     df = pd.DataFrame([
         {"price": 100.0, "count": 5, "add_cost": 10.0, "company": "A", "product": "X"},
         {"price": 100.0, "count": 3, "add_cost": 20.0, "company": "B", "product": "X"},
@@ -20,6 +24,11 @@ def test_predict_price_basic():
 
 
 def test_predict_price_min_ratio():
+    """
+    Тест ограничения минимальной цены (min_price_ratio).
+    Проверяем, что прогноз не падает ниже 90% от базовой цены.
+    Ожидаемый результат: predicted_price >= 90.0.
+    """
     df = pd.DataFrame([
         {"price": 100.0, "count": 5, "add_cost": 0.0, "company": "A", "product": "X"},
     ])
@@ -31,7 +40,10 @@ def test_predict_price_min_ratio():
 
 
 def test_predict_price_empty_df():
-    """Проверка на пустом DataFrame — функция не должна падать."""
+    """
+    Тест на пустой DataFrame: функция не должна падать.
+    Ожидаемый результат: возвращается DataFrame с колонкой predicted_price и длиной 0.
+    """
     df = pd.DataFrame(columns=["price", "count", "add_cost", "company", "product"])
     result = predict_price(df)
     assert "predicted_price" in result.columns
@@ -39,7 +51,11 @@ def test_predict_price_empty_df():
 
 
 def test_predict_price_season_factor():
-    """Проверка, что сезонный коэффициент реально влияет на цену."""
+    """
+    Тест влияния сезонного коэффициента на прогноз.
+    Проверяем, что изменение season_factor реально меняет результат.
+    Ожидаемый результат: при factor=0.5 прогноз ограничен снизу (90.0), при factor=2.0 прогноз = 210.0.
+    """
     df = pd.DataFrame([
         {"price": 100.0, "count": 5, "add_cost": 10.0, "company": "A", "product": "X"},
     ])
