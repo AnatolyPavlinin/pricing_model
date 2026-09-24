@@ -1,5 +1,4 @@
 import pandas as pd
-import pytest
 from src.model import predict_price
 
 
@@ -9,10 +8,12 @@ def test_predict_price_basic():
     Логика: базовая цена усредняется по продукту, затем применяется формула.
     Ожидаемый результат: predicted_price = 110 и 120 соответственно.
     """
-    df = pd.DataFrame([
-        {"price": 100.0, "count": 5, "add_cost": 10.0, "company": "A", "product": "X"},
-        {"price": 100.0, "count": 3, "add_cost": 20.0, "company": "B", "product": "X"},
-    ])
+    df = pd.DataFrame(
+        [
+            {"price": 100.0, "count": 5, "add_cost": 10.0, "company": "A", "product": "X"},
+            {"price": 100.0, "count": 3, "add_cost": 20.0, "company": "B", "product": "X"},
+        ]
+    )
     result = predict_price(df, season_factor=1.0, competitor_factor=1.0)
     assert "predicted_price" in result.columns
 
@@ -29,9 +30,11 @@ def test_predict_price_min_ratio():
     Проверяем, что прогноз не падает ниже 90% от базовой цены.
     Ожидаемый результат: predicted_price >= 90.0.
     """
-    df = pd.DataFrame([
-        {"price": 100.0, "count": 5, "add_cost": 0.0, "company": "A", "product": "X"},
-    ])
+    df = pd.DataFrame(
+        [
+            {"price": 100.0, "count": 5, "add_cost": 0.0, "company": "A", "product": "X"},
+        ]
+    )
     # Базовая цена = 100, add_cost = 0, прогноз = 100 * 1.0 * 1.0 + 0 = 100
     # min_price_ratio = 0.9, нижняя граница = 100 * 0.9 = 90
     # Прогноз (100) выше границы (90), значит остаётся 100
@@ -56,9 +59,11 @@ def test_predict_price_season_factor():
     Проверяем, что изменение season_factor реально меняет результат.
     Ожидаемый результат: при factor=0.5 прогноз ограничен снизу (90.0), при factor=2.0 прогноз = 210.0.
     """
-    df = pd.DataFrame([
-        {"price": 100.0, "count": 5, "add_cost": 10.0, "company": "A", "product": "X"},
-    ])
+    df = pd.DataFrame(
+        [
+            {"price": 100.0, "count": 5, "add_cost": 10.0, "company": "A", "product": "X"},
+        ]
+    )
     result_low = predict_price(df, season_factor=0.5, competitor_factor=1.0)
     result_high = predict_price(df, season_factor=2.0, competitor_factor=1.0)
 

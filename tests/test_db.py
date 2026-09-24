@@ -1,8 +1,6 @@
-import os
-import tempfile
 import pytest
 from sqlalchemy import create_engine, text
-from src.db import get_engine, init_db, save_records, PriceRecord
+from src.db import init_db, save_records
 import pandas as pd
 
 
@@ -36,10 +34,12 @@ def test_save_records(engine):
     Ожидаемый результат: в таблице ровно 2 строки.
     """
     init_db(engine)
-    df = pd.DataFrame([
-        {"price": 100.0, "count": 5, "add_cost": 10.0, "company": "A", "product": "X"},
-        {"price": 200.0, "count": 3, "add_cost": 20.0, "company": "B", "product": "Y"},
-    ])
+    df = pd.DataFrame(
+        [
+            {"price": 100.0, "count": 5, "add_cost": 10.0, "company": "A", "product": "X"},
+            {"price": 200.0, "count": 3, "add_cost": 20.0, "company": "B", "product": "Y"},
+        ]
+    )
     save_records(engine, df)
 
     with engine.connect() as conn:

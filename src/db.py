@@ -4,7 +4,6 @@ from typing import Optional
 from sqlalchemy import create_engine, Column, Integer, Float, String
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-
 Base = declarative_base()
 
 
@@ -12,6 +11,7 @@ class PriceRecord(Base):
     """
     ORM-модель для таблицы price_records в PostgreSQL.
     """
+
     __tablename__ = "price_records"
 
     id = Column(Integer, primary_key=True, autoincrement=True)

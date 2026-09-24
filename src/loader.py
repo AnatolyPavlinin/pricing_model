@@ -2,7 +2,6 @@ from pathlib import Path
 
 import pandas as pd
 
-
 REQUIRED_COLUMNS = {"price", "count", "add_cost", "company", "product"}
 
 

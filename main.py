@@ -35,7 +35,7 @@ def run_pipeline(csv_path: str, db_url: str | None = None):
     save_records(engine, df)
     print("✅ Данные сохранены в БД.")
 
-    # 3. Интерактивный ввод коэффициентов (для демонстрации)
+    # 3. Интерактивный ввод коэффициентов
     print("\n🎯 Настройка коэффициентов прогноза:")
     season_factor = get_float_input("Сезонный коэффициент (например, 1.2 в сезон)", 1.0)
     competitor_factor = get_float_input("Коэффициент конкуренции (1.0 = норма, <1 = конкуренты дешевле)", 1.0)
@@ -48,7 +48,7 @@ def run_pipeline(csv_path: str, db_url: str | None = None):
     result_df = predict_price(df, season_factor, competitor_factor, min_ratio)
 
     # Вывод статистики для наглядности
-    print(f"\n📊 Статистика прогноза:")
+    print("\n📊 Статистика прогноза:")
     print(result_df[["product", "price", "add_cost", "predicted_price"]].head())
 
     # 5. Сохранение прогноза

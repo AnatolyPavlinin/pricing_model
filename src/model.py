@@ -2,10 +2,7 @@ import pandas as pd
 
 
 def predict_price(
-    df: pd.DataFrame,
-    season_factor: float = 1.0,
-    competitor_factor: float = 1.0,
-    min_price_ratio: float = 0.9
+    df: pd.DataFrame, season_factor: float = 1.0, competitor_factor: float = 1.0, min_price_ratio: float = 0.9
 ) -> pd.DataFrame:
     """
     Прогнозирует цену на основе исторических данных.
@@ -25,9 +22,7 @@ def predict_price(
     base_price = df.groupby("product")["price"].transform("mean")
 
     # Прогнозная цена
-    df["predicted_price"] = (
-        base_price * season_factor * competitor_factor + df["add_cost"]
-    )
+    df["predicted_price"] = base_price * season_factor * competitor_factor + df["add_cost"]
 
     # Ограничение снизу
     df["predicted_price"] = df["predicted_price"].clip(lower=base_price * min_price_ratio)
