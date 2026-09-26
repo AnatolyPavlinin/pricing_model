@@ -218,3 +218,5 @@ __marimo__/
 # Артефакты запуска
 predictions.csv
 pricing.db
+
+output/
