@@ -16,16 +16,16 @@
 1. Установи Poetry (если нет):
    ```
    curl -sSL https://install.python-poetry.org | python3 -
-   
+   ```
 2. Инициализируй проект (если создаёшь с нуля):
     ```
     poetry init
     poetry config virtualenvs.in-project true
-   
+    ```
 3. Установи зависимости:
     ```
    poetry install
-
+   ```
 ## Настройка
 
 1. Создай файл .env в корне проекта и укажи строку подключения к SQLite:
