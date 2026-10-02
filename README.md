@@ -78,7 +78,7 @@
    docker build -t pricing-model .
    docker run -v $(pwd)/data:/app/data -v $(pwd)/output:/app/output pricing-model
    ```
-## CI/CD
+## CI
 При пуше в main или develop автоматически запускается GitHub Actions pipeline:
 
  - pytest с покрытием
